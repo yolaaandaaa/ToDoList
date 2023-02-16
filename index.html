@@ -1,0 +1,134 @@
+<html lang="en">
+<!-- feel free to revise this file -->
+
+<head>
+	<style>	
+		/*write your css rules here*/
+		body {
+			background-color: #FFCDD2;
+			padding: 100px 50;
+		}
+
+		textarea {
+			width:100%; /*original*/
+			font-family: 'Bookman Old Style', serif;
+			background-color: #757575;
+			font-weight: bold;
+			border: 3px solid black;
+			height: 100px;
+			font-size: 20px;
+		}
+		
+		.divButton {
+			text-align: center;
+		}
+		button {
+			background-color: #BDBDBD;
+			color: #212121;
+			font: italic 2em Georgia, serif;
+			font-weight:bold;
+			border-radius: 5px;
+			font-size: 20px;
+			width: 100px;
+		}
+		button:hover {
+			background-color: #212121;
+			color: #BDBDBD;
+		}
+
+		li {
+			font-size: 30px; /*original*/
+			font: italic 2em Georgia, serif;
+		}
+	</style>
+</head>
+
+<body>
+	<textarea id='text' rows="3" >Lecture preparation: cloud computing, 1; Dinner with ProfWong, 2; Walk my dog, 3; Lecture preparation: probability,1</textarea> 
+	<br/>
+	<br/>
+	<div class='divButton'>
+		<button id='btn_add'>Add</button>
+		<button id='btn_hide'>Toggle</button>
+	</div>
+
+	<ol id='order_list'>
+	</ol>	
+</body>
+
+	<script>
+		// write your Javascript here
+		function add1() {
+			var ol1=document.getElementById("order_list") 
+			var text1 = document.getElementById('text').value 
+			var splittext1 = text1.split(';'); 
+			for(var i=0;i<splittext1.length;i++) {
+				var splittext2 = splittext1[i].split(','); 
+				var li1=document.createElement("li");
+				li1.innerHTML=splittext2[0];
+				var nospace = splittext2[1].trim();
+				switch(nospace)
+				{
+					case "1":
+						li1.style.color = "red";
+						break;
+					case "2":
+						li1.style.color = "black";
+						break;
+					case "3":
+						li1.style.color = "grey";
+						break;
+				}
+				ol1.appendChild(li1) 
+			}
+		}
+		document.getElementById('btn_add').onclick = add1; 
+
+		list1 = document.getElementById('order_list'); 
+		var time = 200;
+		var timeOut = null;
+
+		list1.addEventListener('click', function(e) {
+			console.log(e.target);
+		})
+
+		function singleClick (e) {
+			clearTimeout(timeOut);
+			timeOut= setTimeout(function () {
+				//console.log('click');
+				target = e.target;
+				if (target.className == 'completed') {
+					target.style.textDecoration = '';
+					target.className = target.className.replace('');
+				} else {
+					alert('The task will be deleted.');
+					target.parentNode.removeChild(target);
+				}
+			}, time)
+		}
+		list1.onclick = singleClick;
+		
+		function doubleClick (e) {
+			clearTimeout(timeOut); 
+			//console.log('dbclick')
+			target = e.target;
+			target.style.textDecoration = 'line-through';
+			target.className = 'completed';
+		}
+		list1.ondblclick = doubleClick;
+	
+		function tog1() {
+			var list2 = document.getElementsByClassName('completed');
+			for(var i=0;i<list2.length;i++) {
+				if (list2[i].style.display=="") {
+					list2[i].style.display="none";
+				} else {
+					list2[i].style.display="";
+				}
+			}
+		}
+		document.getElementById('btn_hide').onclick = tog1; 
+
+	</script>
+</html>
+
